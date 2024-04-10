@@ -1,0 +1,13 @@
+# Arquivos de configuração
+*.pyc
+*.pyo
+__pycache__/
+
+# Virtual environment
+venv/
+venv*/
+__env*/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
