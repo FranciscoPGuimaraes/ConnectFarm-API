@@ -1,2 +1,11 @@
-fastapi==0.100.1
+fastapi~=0.110.0
 uvicorn[standard]==0.23.2
+pydantic~=2.6.3
+psycopg2-binary~=2.9.9
+python-dotenv~=1.0.1
+passlib~=1.7.4
+python-jose~=3.0.0
+python-multipart==0.0.9
+bcrypt==4.1.2
+starlette~=0.36.3
+numpy==1.26.4
