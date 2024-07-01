@@ -4,15 +4,15 @@ from typing import Annotated, Optional, List, Dict
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 
-from api.dependencies import authenticate_user, create_access_token, get_password_hash
+from api.dependencies import authenticate_user, create_access_token, get_api_key, get_password_hash
 from api.services.user import create_user, get_all_users
 from api.models.UserModels import UserOut, UserIn
 from api.models.structural.TokenModels import Token
 
 router = APIRouter(
     prefix="/user",
-    tags=["User"]
-    #dependencies=[Security(get_current_user, scopes=[UserScope.admin.value]), Depends(get_api_key)]
+    tags=["User"],
+    dependencies=[Depends(get_api_key)]
 )
 
 
