@@ -10,4 +10,4 @@ app.include_router(user.router)
 # python -m uvicorn api.api:app --reload
 @app.get("/")
 def read_root():
-    return {"API": "BaseAPI teste"}
+    return

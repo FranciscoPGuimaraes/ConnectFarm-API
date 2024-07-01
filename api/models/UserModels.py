@@ -4,16 +4,19 @@ from pydantic import BaseModel, Field
 
 
 class UserOut(BaseModel):
-    cpf: str = Field(None, max_length=11)
-    name: str = Field(None, max_length=50)
-    email: str = Field(None, max_length=30)
+    name: str = Field(max_length=50)
+    email: str = Field(max_length=30)
     phone: str = Field(None, max_length=11)  
-    birth: str = Field(None, max_length=10)  
+    birth: str = Field(max_length=10)  
 
 
-class Userin(UserOut):
+class UserIn(UserOut):
+    cpf: str = Field(max_length=11)
     password: str = Field(max_length=64)
 
+class UserInDB(UserOut):
+    hashed_password: str
+    
 
 class UserInQuery(BaseModel):
     name: Optional[str] = Field(None, max_length=50)

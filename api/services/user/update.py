@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from psycopg2 import IntegrityError
 
-from api.internal.db import connect
+from api.services.db import connect
 from api.models.UserModels import UserInQuery
 
 async def update_team_by_number(cpf: str, update_data: UserInQuery) -> None:
@@ -39,7 +39,7 @@ async def update_team_by_number(cpf: str, update_data: UserInQuery) -> None:
                     """
 
         # Executar a query de atualização
-        with db_connect.connect() as conn:
+        with connect() as conn:
             with conn.cursor() as cursor:
                 if query:
                     cursor.execute(query, update_params)

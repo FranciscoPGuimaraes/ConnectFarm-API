@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 
-from api.internal.db import connect
+from api.services.db import connect
 
 
 async def delete_team(cpf: str):
