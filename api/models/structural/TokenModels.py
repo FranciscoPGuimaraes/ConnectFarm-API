@@ -1,4 +1,4 @@
-from typing import Union, List
+from typing import Union
 from pydantic import BaseModel
 
 
@@ -8,5 +8,5 @@ class Token(BaseModel):
 
 
 class TokenData(BaseModel):
-    email: Union[str, None] = None
+    user_id: Union[str, None] = None
     # scopes: List[str] = []

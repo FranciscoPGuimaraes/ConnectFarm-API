@@ -34,37 +34,9 @@ async def get_all_users() -> Optional[List[UserOut]]:
         conn.close()
 
 
-async def get_user_by_cpf(cpf: str) -> UserOut:
+async def get_user_by_email_for_auth(email: str) -> UserInDB:
     query = """
-            SELECT u.name, u.birth, u.phone, u.email
-            FROM "user" u where u.cpf = %(cpf)s;
-            """
-    try:
-        with connect() as conn:
-            with conn.cursor() as cursor:
-                cursor.execute(query, (cpf,))
-                result = cursor.fetchall()
-
-                if result:
-                    user: UserOut
-                    user = UserOut(name=result[0], birth=result[1], phone=result[2], email=result[3], cpf=result[4])
-
-                    return user
-                else:
-                    return None
-                
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-    
-    finally:
-        cursor.close()
-        conn.close()
-
-
-
-async def get_user_by_email_for_auth(email: str) -> UserInDB :
-    query = """
-            SELECT u.name, u.birth, u.phone, u.email, u.password
+            SELECT u.password, u.user_id
             FROM "user" u
             WHERE u.email = %(email)s;
             """
@@ -76,7 +48,7 @@ async def get_user_by_email_for_auth(email: str) -> UserInDB :
 
                 if result:
                     user: UserInDB
-                    user = UserInDB(name=result[0], birth=result[1], phone=result[2], email=result[3], hashed_password=result[4])
+                    user = UserInDB(hashed_password=result[0], user_id=result[1])
 
                     return user
                 else:

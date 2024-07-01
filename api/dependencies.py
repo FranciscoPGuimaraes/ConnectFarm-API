@@ -11,6 +11,8 @@ from starlette.status import HTTP_403_FORBIDDEN
 
 from dotenv import load_dotenv
 
+from api.models.UserModels import UserInDB
+
 from .models.structural.TokenModels import TokenData
 from .services.user import get_user_by_email_for_auth
 
@@ -47,7 +49,7 @@ def get_password_hash(password: str):
 
 
 async def authenticate_user(email: str, password: str):
-    user = await get_user_by_email_for_auth(email)
+    user: UserInDB = await get_user_by_email_for_auth(email)
     if not user:
         return False
     if not verify_password(password, user.hashed_password):
@@ -74,13 +76,13 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     )
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        email: str = payload.get("sub")
-        if email is None:
+        user_id = payload.get("sub")
+        if user_id is None:
             raise credentials_exception
-        token_data = TokenData(email=email)
+        token_data = TokenData(user_id=user_id)
     except InvalidTokenError:
         raise credentials_exception
-    user = get_user_by_email_for_auth(token_data.email)
+    user = get_user_by_email_for_auth(token_data.user_id)
     if user is None:
         raise credentials_exception
     return user

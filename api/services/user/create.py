@@ -14,7 +14,7 @@ async def create_user(user: UserIn) -> None:
         'email': user.email,
         'password': user.password,
         'phone': user.phone,
-        'birth': user.birth
+        'birth': user.birth,
     }
     try:
         with connect() as conn:
