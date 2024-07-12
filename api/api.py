@@ -1,13 +1,25 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 
-from .routers import culture
+from .routers import user
 
 app = FastAPI()
 
-app.include_router(culture.router)
+app.include_router(user.router)
 
-# on root run with:
-# python -m uvicorn api.api:app --reload
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.get("/")
 def read_root():
-    return {"API": "BaseAPI teste"}
+    return
+
+@app.post("/post")
+async def post_testing(request: Request):
+    post = await request.json()
+    return post
