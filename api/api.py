@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from .routers import user
@@ -18,3 +18,8 @@ app.add_middleware(
 @app.get("/")
 def read_root():
     return
+
+@app.post("/post")
+async def post_testing(request: Request):
+    post = await request.json()
+    return post
