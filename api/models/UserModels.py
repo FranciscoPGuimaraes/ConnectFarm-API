@@ -6,12 +6,12 @@ from pydantic import BaseModel, Field
 class UserOut(BaseModel):
     name: str = Field(max_length=50)
     email: str = Field(max_length=30)
-    phone: str = Field(max_length=11)  
+    phone: str = Field(max_length=15)  
     birth: str = Field(max_length=10)  
 
 
 class UserIn(UserOut):
-    cpf: str = Field(max_length=11)
+    cpf: str = Field(max_length=14)
     password: str = Field(max_length=64)
 
 
