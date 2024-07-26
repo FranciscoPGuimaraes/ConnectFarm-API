@@ -12,7 +12,7 @@ class Age(BaseModel):
 class Weight(BaseModel):
     date: date
     weight: float
-    observation: Optional[str]
+    observation: Optional[str] = None
 
 
 class Location(BaseModel):
@@ -29,7 +29,7 @@ class Vaccine(BaseModel):
 class HealthHistory(BaseModel):
     date: date
     status: str
-    disease: Optional[str]
+    disease: Optional[str] = None
     
     
 class Calf(BaseModel):
@@ -45,6 +45,15 @@ class Calf(BaseModel):
 class Reproduction(BaseModel):
     type: str
     date: date
+
+
+class CattleIn(BaseModel):
+    farm_id: UUID
+    number: int
+    age: Optional[Age] = None
+    breed: str
+    annotation: Optional[str] = None
+    weights: Weight
 
 
 class Cattle(BaseModel):
