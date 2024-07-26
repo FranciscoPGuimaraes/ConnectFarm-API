@@ -1,7 +1,7 @@
 from uuid import UUID
 from fastapi import HTTPException
 from api.services.db import connect_mongo
-from models.CattleModels import Cattle
+from api.models.CattleModels import Cattle
 
 async def read_cattle(farm_id: UUID, matrix_number: int) -> Cattle:
     collection, client = connect_mongo("cattles")

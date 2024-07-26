@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 from api.services.db import connect_mongo
-from models.CattleModels import CattleIn
+from api.models.CattleModels import CattleIn
 
 async def create_cattle(cattle: CattleIn):
     collection, client = connect_mongo("cattles")
