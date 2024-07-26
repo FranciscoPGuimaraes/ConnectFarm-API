@@ -1,1 +1,1 @@
-from .cattle.create import create_cattle
+from .cattle import create_cattle, update_cattle, read_cattle

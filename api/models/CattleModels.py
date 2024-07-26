@@ -56,6 +56,14 @@ class CattleIn(BaseModel):
     weights: Weight
 
 
+class CattleUpdate(BaseModel):
+    farm_id: UUID
+    number: Optional[int] = None
+    weights: Optional[Weight] = None
+    reproduction: Optional[Reproduction] = None
+    health_history: Optional[HealthHistory] = None
+
+
 class Cattle(BaseModel):
     id: str = Field(alias="_id")
     farm_id: UUID
