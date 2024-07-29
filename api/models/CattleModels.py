@@ -48,7 +48,6 @@ class Reproduction(BaseModel):
 
 
 class CattleIn(BaseModel):
-    farm_id: UUID
     number: int
     age: Optional[Age] = None
     breed: str
@@ -57,7 +56,6 @@ class CattleIn(BaseModel):
 
 
 class CattleUpdate(BaseModel):
-    farm_id: UUID
     number: Optional[int] = None
     weights: Optional[Weight] = None
     reproduction: Optional[Reproduction] = None

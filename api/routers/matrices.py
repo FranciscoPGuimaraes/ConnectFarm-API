@@ -19,22 +19,20 @@ router = APIRouter(
 
 
 @router.post("/create")
-async def create_cattle_endpoint(cattle: CattleIn):
+async def create_cattle_endpoint(farm_id: UUID, cattle: CattleIn):
     try:
-        _id = await create_cattle(cattle)
+        _id = await create_cattle(farm_id, cattle)
         return {"message": f"Cattle with id {_id} created successfully!"}
     except Exception as e:
         raise e
-    
-    
+
 @router.put("/{cattle_number}")
-async def update_cattle_endpoint(cattle_number: int, update_data: CattleUpdate):
+async def update_cattle_endpoint(farm_id: UUID, cattle_number: int, update_data: CattleUpdate):
     try:
-        result = await update_cattle(update_data.farm_id, cattle_number, update_data)
+        result = await update_cattle(farm_id, cattle_number, update_data)
         return result
     except Exception as e:
         raise e
-
 
 @router.get("/{matrix_number}")
 async def read_cattle_endpoint(farm_id: UUID, matrix_number: int):
