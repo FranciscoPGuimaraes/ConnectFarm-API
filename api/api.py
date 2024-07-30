@@ -1,11 +1,14 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-from .routers import user
+from .routers import matrices, user, farms, calves
 
 app = FastAPI()
 
 app.include_router(user.router)
+app.include_router(farms.router)
+app.include_router(matrices.router)
+app.include_router(calves.router) 
 
 app.add_middleware(
     CORSMiddleware,
