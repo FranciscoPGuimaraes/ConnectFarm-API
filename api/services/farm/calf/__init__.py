@@ -1,3 +1,3 @@
-from .create import create_cattle
-from .read import read_cattle
-from .update import update_cattle
+from .create import create_calf
+from .read import read_calf
+from .update import update_calf
