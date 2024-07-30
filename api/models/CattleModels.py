@@ -38,6 +38,15 @@ class CalfIn(BaseModel):
     weaning: str
     annotation: Optional[str]
     weights: Weight
+
+
+class CalfUpdate(BaseModel):
+    number: Optional[str] = None
+    birth_date: Optional[str] = None
+    weaning: Optional[str] = None
+    annotation: Optional[str] = None
+    weights: Optional[Weight] = None
+    health_history: Optional[HealthHistory] = None
     
     
 class Calf(BaseModel):

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Security, HTTPException
 from uuid import UUID
-from api.models.CattleModels import Calf
+from api.models.CattleModels import Calf, CalfIn, CalfUpdate
 from api.services.farm.calf import create_calf, update_calf, read_calf
 from api.dependencies import get_api_key, get_current_user
 
@@ -11,7 +11,7 @@ router = APIRouter(
 )
 
 @router.post("/create")
-async def create_calf_endpoint(farm_id: UUID, cattle_number: int, calf: Calf):
+async def create_calf_endpoint(farm_id: UUID, cattle_number: int, calf: CalfIn):
     try:
         response = await create_calf(farm_id, cattle_number, calf)
         return response
@@ -19,7 +19,7 @@ async def create_calf_endpoint(farm_id: UUID, cattle_number: int, calf: Calf):
         raise e
 
 @router.put("/{calf_number}")
-async def update_calf_endpoint(farm_id: UUID, cattle_number: int, calf_number: str, update_data: Calf):
+async def update_calf_endpoint(farm_id: UUID, cattle_number: int, calf_number: str, update_data: CalfUpdate):
     try:
         response = await update_calf(farm_id, cattle_number, calf_number, update_data)
         return response

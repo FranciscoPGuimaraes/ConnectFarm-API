@@ -6,6 +6,7 @@ from api.models.CattleModels import Cattle
 async def read_calf(farm_id: UUID, cattle_number: int, number: str):
     collection, client = connect_mongo("cattles")
     try:
+        farm_id = str(farm_id)
         cattle = collection.find_one({"farm_id": farm_id, "number": cattle_number, "calves.number": number}, {"calves.$": 1})
         if not cattle or "calves" not in cattle:
             raise HTTPException(status_code=404, detail="Calf not found")
