@@ -33,7 +33,7 @@ class HealthHistory(BaseModel):
     
     
 class Calf(BaseModel):
-    calf_id: str
+    number: str
     birth_date: date
     weaning: date
     annotation: Optional[str]
