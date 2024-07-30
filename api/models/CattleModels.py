@@ -6,44 +6,44 @@ from datetime import date
 
 class Age(BaseModel):
     value: int
-    date: date
+    date: str
 
 
 class Weight(BaseModel):
-    date: date
+    date: str
     weight: float
     observation: Optional[str] = None
 
 
 class Location(BaseModel):
-    date: date
+    date: str
     latitude: float
     longitude: float
 
 
 class Vaccine(BaseModel):
-    date: date
+    date: str
     type: str
 
 
 class HealthHistory(BaseModel):
-    date: date
+    date: str
     status: str
     disease: Optional[str] = None
 
 
 class CalfIn(BaseModel):
     number: str
-    birth_date: date
-    weaning: date
+    birth_date: str
+    weaning: str
     annotation: Optional[str]
     weights: Weight
     
     
 class Calf(BaseModel):
     number: str
-    birth_date: date
-    weaning: date
+    birth_date: str
+    weaning: str
     annotation: Optional[str]
     weights: List[Weight]
     vaccines: List[Vaccine]
@@ -52,10 +52,11 @@ class Calf(BaseModel):
 
 class Reproduction(BaseModel):
     type: str
-    date: date
+    date: str
 
 
 class CattleIn(BaseModel):
+    farm_id: Optional[UUID] = None
     number: int
     age: Optional[Age] = None
     breed: str
@@ -77,9 +78,10 @@ class Cattle(BaseModel):
     age: Optional[Age]
     breed: str
     annotation: Optional[str]
-    weights: List[Weight]
-    locations: List[Location]
-    calves: List[Calf]
-    vaccines: List[Vaccine]
-    reproduction: List[Reproduction]
-    health_history: List[HealthHistory]
+    weights: List[Weight] = []
+    locations: List[Location] = []
+    calves: List[Calf] = []
+    vaccines: List[Vaccine] = []
+    reproduction: List[Reproduction] = []
+    health_history: List[HealthHistory] = []
+
