@@ -9,7 +9,6 @@ async def update_cattle(farm_id: UUID, matrix_number: int, update_data: CattleUp
         update_fields = update_data.model_dump(exclude_unset=True)
         query = {"farm_id": farm_id, "number": matrix_number}
         
-        # Processar a atualização de listas
         if "weights" in update_fields and update_fields["weights"] is not None:
             result = collection.update_one(
                 query,

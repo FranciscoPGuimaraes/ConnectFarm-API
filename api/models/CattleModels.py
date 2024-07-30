@@ -30,6 +30,14 @@ class HealthHistory(BaseModel):
     date: date
     status: str
     disease: Optional[str] = None
+
+
+class CalfIn(BaseModel):
+    number: str
+    birth_date: date
+    weaning: date
+    annotation: Optional[str]
+    weights: Weight
     
     
 class Calf(BaseModel):
