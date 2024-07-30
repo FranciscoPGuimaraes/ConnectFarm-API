@@ -1,7 +1,7 @@
 from http.client import HTTPException
 from uuid import UUID
 from api.services.db import connect_mongo
-from api.models import Calf
+from api.models.CattleModels import Calf
 
 async def create_calf(farm_id: UUID, cattle_number: int, calf: Calf):
     collection, client = connect_mongo("cattles")
