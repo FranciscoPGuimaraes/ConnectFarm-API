@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends
 
 from api.dependencies import get_api_key
 from api.models.CattleModels import VaccineIn
-from api.services.farm.vaccines import create_vaccine_cattle, create_vaccine_calf, read_vaccines_cattle, read_vaccines_calf
+from api.services.farm.vaccines import create_vaccine_cattle, create_vaccine_calf, read_vaccines_cattle, read_vaccines_calf, delete_vaccine_cattle, delete_vaccine_calf
 
 
 router = APIRouter(
@@ -49,5 +49,23 @@ async def create_cattle_endpoint(farm_id: UUID, cattle_number: int, calf_number:
     try:
         vaccines = await read_vaccines_calf(farm_id, cattle_number, calf_number)
         return vaccines
+    except Exception as e:
+        raise e
+    
+    
+@router.delete("/{vaccine_id}/delete")
+async def create_cattle_endpoint(farm_id: UUID, cattle_number: int, vaccine_id: str):
+    try:
+        await delete_vaccine_cattle(farm_id, cattle_number, vaccine_id)
+        return {"message": f"Vaccine deleted successfully!"}
+    except Exception as e:
+        raise e
+    
+    
+@router.delete("/{calf_number}/{vaccine_id}/delete")
+async def create_cattle_endpoint(farm_id: UUID, cattle_number: int, calf_number: str, vaccine_id: str):
+    try:
+        await delete_vaccine_calf(farm_id, cattle_number, calf_number, vaccine_id)
+        return {"message": f"Vaccine deleted successfully!"}
     except Exception as e:
         raise e
