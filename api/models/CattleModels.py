@@ -21,7 +21,13 @@ class Location(BaseModel):
     longitude: float
 
 
+class VaccineIn(BaseModel):
+    date: str
+    type: str
+    
+
 class Vaccine(BaseModel):
+    id: str
     date: str
     type: str
 
