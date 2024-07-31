@@ -25,6 +25,7 @@ async def create_cattle_endpoint(farm_id: UUID, cattle: CattleIn):
     except Exception as e:
         raise e
 
+
 @router.put("/{cattle_number}")
 async def update_cattle_endpoint(farm_id: UUID, cattle_number: int, update_data: CattleUpdate):
     try:
@@ -32,6 +33,7 @@ async def update_cattle_endpoint(farm_id: UUID, cattle_number: int, update_data:
         return result
     except Exception as e:
         raise e
+
 
 @router.get("/{cattle_number}")
 async def read_cattle_endpoint(farm_id: UUID, cattle_number: int):

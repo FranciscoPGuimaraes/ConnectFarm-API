@@ -15,7 +15,7 @@ async def read_cattle(farm_id: UUID, matrix_number: int) -> Cattle:
         result["_id"] = str(result["_id"])
         if "weights" in result and not isinstance(result["weights"], list):
             result["weights"] = [result["weights"]]
-
+        
         return Cattle(**result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching data: {e}")
