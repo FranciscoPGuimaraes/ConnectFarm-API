@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-from .routers import cattles, user, farms, calves
+from .routers import cattles, user, farms, calves, annotations
 
 app = FastAPI()
 
@@ -9,6 +9,7 @@ app.include_router(user.router)
 app.include_router(farms.router)
 app.include_router(cattles.router)
 app.include_router(calves.router) 
+app.include_router(annotations.router)
 
 app.add_middleware(
     CORSMiddleware,
