@@ -7,7 +7,7 @@ async def update_calf(farm_id: UUID, cattle_number: int, number: str, update_dat
     collection, client = connect_mongo("cattles")
     try:
         farm_id_str = str(farm_id)
-        update_fields = update_data.model_dump(exclude_unset=True)
+        update_fields = update_data.dict(exclude_unset=True)
         
         update_operations = {}
 
@@ -44,5 +44,3 @@ async def update_calf(farm_id: UUID, cattle_number: int, number: str, update_dat
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error updating calf: {e}")
-    finally:
-        client.close()

@@ -8,9 +8,14 @@ load_dotenv()
 
 MONGO_URI = os.getenv("MONGO_URI")
 
+client = MongoClient(
+    MONGO_URI,
+    maxPoolSize=50,
+    minPoolSize=5
+)
+
 def connect_mongo(collection_name: str) -> tuple[Collection, MongoClient]:
     try:
-        client = MongoClient(MONGO_URI)
         db: Database = client['ConnectFarm']
         collection: Collection = db[collection_name]
         print("Conexão estabelecida com sucesso.")

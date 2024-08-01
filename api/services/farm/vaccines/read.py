@@ -21,8 +21,6 @@ async def read_vaccines_cattle(farm_id: UUID, cattle_number: int):
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading vaccines: {e}")
-    finally:
-        client.close()
     
 
 async def read_vaccines_calf(farm_id: UUID, cattle_number: int, calf_number: str):
@@ -52,5 +50,3 @@ async def read_vaccines_calf(farm_id: UUID, cattle_number: int, calf_number: str
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading vaccines: {e}")
-    finally:
-        client.close()
