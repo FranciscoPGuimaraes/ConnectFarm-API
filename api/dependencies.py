@@ -13,8 +13,8 @@ from dotenv import load_dotenv
 
 from api.models.UserModels import UserInDB
 
-from .models.structural.TokenModels import TokenData
-from .services.user import get_user_by_email_for_auth
+from api.models.structural.TokenModels import TokenData
+from api.services.user import get_user_by_email_for_auth
 
 
 load_dotenv()

@@ -6,48 +6,77 @@ from datetime import date
 
 class Age(BaseModel):
     value: int
-    date: date
+    date: str
 
 
 class Weight(BaseModel):
-    date: date
+    date: str
     weight: float
     observation: Optional[str] = None
 
 
 class Location(BaseModel):
-    date: date
+    date: str
     latitude: float
     longitude: float
 
 
-class Vaccine(BaseModel):
-    date: date
+class VaccineIn(BaseModel):
+    date: str
     type: str
+    
+
+class Vaccine(BaseModel):
+    id: str
+    date: str
+    type: str
+    
+    
+class VaccineUpdate(BaseModel):
+    date: Optional[str]
+    type: Optional[str]
 
 
 class HealthHistory(BaseModel):
-    date: date
+    date: str
     status: str
     disease: Optional[str] = None
+
+
+class CalfIn(BaseModel):
+    number: str
+    birth_date: str
+    weaning: str
+    annotation: Optional[str]
+    weights: Weight
+
+
+class CalfUpdate(BaseModel):
+    number: Optional[str] = None
+    birth_date: Optional[str] = None
+    weaning: Optional[str] = None
+    annotation: Optional[str] = None
+    weights: Optional[Weight] = None
+    health_history: Optional[HealthHistory] = None
     
     
 class Calf(BaseModel):
     number: str
-    birth_date: date
-    weaning: date
+    birth_date: str
+    weaning: str
     annotation: Optional[str]
-    weights: List[Weight]
-    vaccines: List[Vaccine]
-    health_history: List[HealthHistory]
+    weights: List[Weight] = []
+    vaccines: List[Vaccine] = []
+    health_history: List[HealthHistory] = []
 
 
 class Reproduction(BaseModel):
     type: str
-    date: date
+    date: str
 
 
 class CattleIn(BaseModel):
+    farm_id: Optional[UUID] = None
     number: int
     age: Optional[Age] = None
     breed: str
@@ -69,9 +98,10 @@ class Cattle(BaseModel):
     age: Optional[Age]
     breed: str
     annotation: Optional[str]
-    weights: List[Weight]
-    locations: List[Location]
-    calves: List[Calf]
-    vaccines: List[Vaccine]
-    reproduction: List[Reproduction]
-    health_history: List[HealthHistory]
+    weights: List[Weight] = []
+    locations: List[Location] = []
+    calves: List[Calf] = []
+    vaccines: List[Vaccine] = []
+    reproduction: List[Reproduction] = []
+    health_history: List[HealthHistory] = []
+
