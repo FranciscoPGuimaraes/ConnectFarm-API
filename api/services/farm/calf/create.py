@@ -7,7 +7,7 @@ async def create_calf(farm_id: UUID, cattle_number: int, calf: CalfIn):
     collection, client = connect_mongo("cattles")
     try:
         farm_id = str(farm_id)
-        calf_data = calf.model_dump(by_alias=True, exclude_unset=True)
+        calf_data = calf.dict(by_alias=True, exclude_unset=True)
         
         if "weights" in calf_data and isinstance(calf_data["weights"], dict):
             calf_data["weights"] = [calf_data["weights"]]
@@ -21,5 +21,3 @@ async def create_calf(farm_id: UUID, cattle_number: int, calf: CalfIn):
         return {"message": "Calf added successfully"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error adding calf: {e}")
-    finally:
-        client.close()

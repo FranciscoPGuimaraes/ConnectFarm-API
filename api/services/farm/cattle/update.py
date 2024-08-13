@@ -55,5 +55,3 @@ async def update_cattle(farm_id: UUID, matrix_number: int, update_data: CattleUp
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error updating data: {e}")
-    finally:
-        client.close()

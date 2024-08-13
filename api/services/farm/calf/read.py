@@ -13,5 +13,3 @@ async def read_calf(farm_id: UUID, cattle_number: int, number: str):
         return cattle["calves"][0]
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro ao ler calf: {e}")
-    finally:
-        client.close()

@@ -21,9 +21,20 @@ class Location(BaseModel):
     longitude: float
 
 
-class Vaccine(BaseModel):
+class VaccineIn(BaseModel):
     date: str
     type: str
+    
+
+class Vaccine(BaseModel):
+    id: str
+    date: str
+    type: str
+    
+    
+class VaccineUpdate(BaseModel):
+    date: Optional[str]
+    type: Optional[str]
 
 
 class HealthHistory(BaseModel):
