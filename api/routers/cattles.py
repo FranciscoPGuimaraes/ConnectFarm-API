@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, List, Optional
 from fastapi import APIRouter, Depends, Security
 
 from api.dependencies import get_api_key, get_current_user
@@ -6,7 +6,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends
 
 from api.dependencies import get_api_key
-from api.models.CattleModels import CattleIn, CattleUpdate
+from api.models.CattleModels import Cattle, CattleIn, CattleUpdate
 from api.services.farm.cattle import create_cattle, update_cattle, read_cattle, read_all_cattles
 
 
@@ -35,7 +35,7 @@ async def update_cattle_endpoint(farm_id: UUID, cattle_number: int, update_data:
         raise e
 
 
-@router.get("/{cattle_number}", description="Get one cattle from farm")
+@router.get("/{cattle_number}", description="Get one cattle from farm", response_model=Optional[Cattle])
 async def read_cattle_endpoint(farm_id: UUID, cattle_number: int):
     try:
         cattle = await read_cattle(farm_id, cattle_number)
@@ -44,7 +44,7 @@ async def read_cattle_endpoint(farm_id: UUID, cattle_number: int):
         raise e
 
 
-@router.get("/", description="Get all cattles from farm")
+@router.get("/", description="Get all cattles from farm", response_model=List[Cattle])
 async def read_cattle_endpoint(farm_id: UUID):
     try:
         cattle = await read_all_cattles(farm_id)

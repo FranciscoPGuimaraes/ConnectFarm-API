@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from uuid import UUID
 import bson
 from fastapi import HTTPException
@@ -24,7 +24,7 @@ async def read_cattle(farm_id: UUID, matrix_number: int) -> Cattle:
         client.close()
         
 
-async def read_all_cattles(farm_id: UUID) -> Cattle:
+async def read_all_cattles(farm_id: UUID) -> List[Cattle]:
     collection, client = connect_mongo("cattles")
     try:
         farm_id_str = str(farm_id)
@@ -32,16 +32,14 @@ async def read_all_cattles(farm_id: UUID) -> Cattle:
         if result is None:
             raise HTTPException(status_code=404, detail=f"Cattles not found in farm {farm_id}")
         
-        # result["_id"] = str(result["_id"])
-        # if "weights" in result and not isinstance(result["weights"], list):
-        #     result["weights"] = [result["weights"]]
         cattle_list = []
         for cattle in result:
             if "_id" in cattle:
-                cattle["_id"] = str(cattle["_id"])  # Converte ObjectId para string
-            cattle_list.append(cattle)
+                cattle["_id"] = str(cattle["_id"]) 
+            if "weights" in cattle and not isinstance(cattle["weights"], list):
+                cattle["weights"] = [cattle["weights"]]
+            cattle_list.append(Cattle(**cattle))
+            
         return cattle_list
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching data: {e}")
-    finally:
-        client.close()
