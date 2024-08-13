@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends
 
 from api.dependencies import get_api_key
 from api.models.CattleModels import CattleIn, CattleUpdate
-from api.services.farm.cattle import create_cattle, update_cattle, read_cattle
+from api.services.farm.cattle import create_cattle, update_cattle, read_cattle, read_all_cattles
 
 
 router = APIRouter(
@@ -17,7 +17,7 @@ router = APIRouter(
 )
 
 
-@router.post("/create")
+@router.post("/create", description="Create a cattle in a farm")
 async def create_cattle_endpoint(farm_id: UUID, cattle: CattleIn):
     try:
         _id = await create_cattle(farm_id, cattle)
@@ -26,7 +26,7 @@ async def create_cattle_endpoint(farm_id: UUID, cattle: CattleIn):
         raise e
 
 
-@router.put("/{cattle_number}")
+@router.put("/{cattle_number}", description="Update a cattle in a farm")
 async def update_cattle_endpoint(farm_id: UUID, cattle_number: int, update_data: CattleUpdate):
     try:
         result = await update_cattle(farm_id, cattle_number, update_data)
@@ -35,10 +35,19 @@ async def update_cattle_endpoint(farm_id: UUID, cattle_number: int, update_data:
         raise e
 
 
-@router.get("/{cattle_number}")
+@router.get("/{cattle_number}", description="Get one cattle from farm")
 async def read_cattle_endpoint(farm_id: UUID, cattle_number: int):
     try:
         cattle = await read_cattle(farm_id, cattle_number)
+        return cattle
+    except Exception as e:
+        raise e
+
+
+@router.get("/", description="Get all cattles from farm")
+async def read_cattle_endpoint(farm_id: UUID):
+    try:
+        cattle = await read_all_cattles(farm_id)
         return cattle
     except Exception as e:
         raise e
