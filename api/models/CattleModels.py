@@ -46,7 +46,7 @@ class HealthHistory(BaseModel):
 class CalfIn(BaseModel):
     number: str
     birth_date: str
-    weaning: str
+    weaning: Optional[str]
     annotation: Optional[str]
     weights: Weight
 
@@ -63,7 +63,7 @@ class CalfUpdate(BaseModel):
 class Calf(BaseModel):
     number: str
     birth_date: str
-    weaning: str
+    weaning: Optional[str]
     annotation: Optional[str]
     weights: List[Weight] = []
     vaccines: List[Vaccine] = []
