@@ -1,7 +1,6 @@
 from typing import List, Optional
 from uuid import UUID
 from pydantic import BaseModel, Field
-from datetime import date
 
 
 class Age(BaseModel):
@@ -24,14 +23,14 @@ class Location(BaseModel):
 class VaccineIn(BaseModel):
     date: str
     type: str
-    
+
 
 class Vaccine(BaseModel):
     id: str
     date: str
     type: str
-    
-    
+
+
 class VaccineUpdate(BaseModel):
     date: Optional[str]
     type: Optional[str]
@@ -58,8 +57,8 @@ class CalfUpdate(BaseModel):
     annotation: Optional[str] = None
     weights: Optional[Weight] = None
     health_history: Optional[HealthHistory] = None
-    
-    
+
+
 class Calf(BaseModel):
     number: str
     birth_date: str
@@ -104,4 +103,3 @@ class Cattle(BaseModel):
     vaccines: List[Vaccine] = []
     reproduction: List[Reproduction] = []
     health_history: List[HealthHistory] = []
-
