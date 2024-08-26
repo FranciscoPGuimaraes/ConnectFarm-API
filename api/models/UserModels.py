@@ -4,8 +4,8 @@ from pydantic import BaseModel, Field
 
 
 class UserOut(BaseModel):
-    name: str = Field(max_length=50)
-    email: str = Field(max_length=30)
+    name: str = Field(max_length=150)
+    email: str = Field(max_length=100)
     phone: str = Field(max_length=15)  
     birth: str = Field(max_length=10)  
 
@@ -21,7 +21,7 @@ class UserInDB(BaseModel):
     
 
 class UserInQuery(BaseModel):
-    name: Optional[str] = Field(None, max_length=50)
-    email: Optional[str] = Field(None, max_length=30)  
-    phone: Optional[str] = Field(None, max_length=30)  
-    birth: Optional[str] = Field(None, max_length=30)  
+    name: Optional[str] = Field(None, max_length=150)
+    email: Optional[str] = Field(None, max_length=100)  
+    phone: Optional[str] = Field(None, max_length=15)  
+    birth: Optional[str] = Field(None, max_length=10)  
