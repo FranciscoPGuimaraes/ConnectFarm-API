@@ -16,7 +16,7 @@ router = APIRouter(
 )
 
 
-@router.get("/health")
+@router.get("/health/history")
 async def health_history(farm_id: str):
     try:
         result = await analyze_health_history(farm_id)
