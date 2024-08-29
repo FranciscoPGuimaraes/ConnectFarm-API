@@ -20,9 +20,7 @@ async def read_cattle(farm_id: UUID, matrix_number: int) -> Cattle:
         return Cattle(**result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching data: {e}")
-    finally:
-        client.close()
-        
+
 
 async def read_all_cattles(farm_id: UUID) -> List[Cattle]:
     collection, client = connect_mongo("cattles")

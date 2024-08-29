@@ -15,7 +15,7 @@ class FinancialTransactionIn(BaseModel):
     description: str
     value: float
     date: datetime
-    matriz_id: Optional[List[UUID]] = None
+    matriz_id: Optional[List[int]] = None
     category: FinancialCategory
 
 
@@ -24,7 +24,7 @@ class FinancialTransactionUpdate(BaseModel):
     description: Optional[str] = None
     value: Optional[float] = None
     date: Optional[datetime] = None
-    matriz_id: Optional[List[UUID]] = None
+    matriz_id: Optional[List[int]] = None
     category: Optional[FinancialCategory] = None
 
 
@@ -34,5 +34,5 @@ class FinancialTransaction(BaseModel):
     description: str
     value: float
     date: datetime
-    matriz_id: Optional[List[UUID]] = None
+    matriz_id: Optional[List[int]] = None
     category: FinancialCategory
