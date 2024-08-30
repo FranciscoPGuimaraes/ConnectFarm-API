@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from api.dependencies import get_current_user
 
-from .routers import cattles, user, farms, calves, annotations, vaccines, data_analysis, financial
+from .routers import cattles, user, farms, calves, annotations, vaccines, data_analysis, fina
 
 app = FastAPI()
 
