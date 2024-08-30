@@ -6,6 +6,8 @@ from api.services.analysis import (
     analyze_health_history,
     analyze_weaning_time,
     calculate_vaccine_coverage,
+    analyze_weight_variation,
+    analyze_weight_variation_month,
 )
 
 
@@ -47,6 +49,24 @@ async def weaning_time(farm_id: str):
 async def vaccines_coverage(farm_id: str):
     try:
         result = await calculate_vaccine_coverage(farm_id)
+        return result
+    except Exception as e:
+        raise e
+
+
+@router.get("/weight/variation")
+async def weight_variation(farm_id: str):
+    try:
+        result = await analyze_weight_variation(farm_id)
+        return result
+    except Exception as e:
+        raise e
+
+
+@router.get("/weight/variation/month")
+async def weight_variation_month(farm_id: str):
+    try:
+        result = await analyze_weight_variation_month(farm_id)
         return result
     except Exception as e:
         raise e
