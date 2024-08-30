@@ -26,9 +26,7 @@ ALGORITHM = os.getenv("ALGORITHM")
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-oauth2_scheme = OAuth2PasswordBearer(
-    tokenUrl="login"
-)
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 
 async def get_api_key(X_API_Key: str = Security(api_key_header)):
@@ -62,7 +60,7 @@ def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None
     if expires_delta:
         expire = datetime.now(timezone.utc) + expires_delta
     else:
-        expire = datetime.now(timezone.utc) + timedelta(minutes=600)
+        expire = datetime.now(timezone.utc) + timedelta(days=999)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt

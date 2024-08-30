@@ -19,7 +19,7 @@ async def calculate_vaccine_coverage(farm_id: UUID):
                 vaccine_counts[vaccine_type] += 1
 
         vaccine_coverage = {
-            vaccine: (count / total_cows) * 100
+            vaccine: round((count / total_cows) * 100, 2)
             for vaccine, count in vaccine_counts.items()
         }
 
