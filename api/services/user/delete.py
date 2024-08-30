@@ -13,3 +13,7 @@ async def delete_team(cpf: str):
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+    finally:
+        cursor.close()
+        conn.close()

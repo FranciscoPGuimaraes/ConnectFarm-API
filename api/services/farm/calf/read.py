@@ -2,7 +2,7 @@ from typing import List
 from uuid import UUID
 from fastapi import HTTPException
 from api.services.db import connect_mongo
-from api.models.CattleModels import Calf, Cattle
+from api.models.CattleModels import Calf
 
 async def read_calf(farm_id: UUID, cattle_number: int, number: str):
     collection, client = connect_mongo("cattles")
@@ -14,7 +14,8 @@ async def read_calf(farm_id: UUID, cattle_number: int, number: str):
         return cattle["calves"][0]
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro ao ler calf: {e}")
-    
+    finally:
+        client.close()
 
 async def read_calfs(farm_id: UUID, cattle_number: int) -> List[Calf]:
     collection, client = connect_mongo("cattles")
