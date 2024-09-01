@@ -119,8 +119,6 @@ async def analyze_financials_per_cow(farm_id: UUID):
 
         result = list(collection.aggregate(pipeline))
 
-        print(result)
-
         formatted_result = [
             {
                 "id": item["_id"],

@@ -9,6 +9,7 @@ from api.services.analysis import (
     analyze_weight_variation,
     analyze_weight_variation_month,
     analyze_financials_per_cow,
+    analyze_financials_current,
 )
 
 
@@ -77,6 +78,15 @@ async def weight_variation_month(farm_id: str):
 async def financial_by_cattle(farm_id: str):
     try:
         result = await analyze_financials_per_cow(farm_id)
+        return result
+    except Exception as e:
+        raise e
+
+
+@router.get("/financial/current")
+async def financials_current(farm_id: str):
+    try:
+        result = await analyze_financials_current(farm_id)
         return result
     except Exception as e:
         raise e
