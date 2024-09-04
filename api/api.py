@@ -3,7 +3,17 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from api.dependencies import get_current_user
 
-from .routers import cattles, user, farms, calves, annotations, vaccines, data_analysis, financial
+from .routers import (
+    cattles,
+    user,
+    farms,
+    calves,
+    annotations,
+    vaccines,
+    data_analysis,
+    financial,
+    weight,
+)
 
 app = FastAPI()
 
@@ -15,6 +25,7 @@ app.include_router(annotations.router)
 app.include_router(vaccines.router)
 app.include_router(data_analysis.router)
 app.include_router(financial.router)
+app.include_router(weight.router)
 
 app.add_middleware(
     CORSMiddleware,

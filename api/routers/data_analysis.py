@@ -8,6 +8,9 @@ from api.services.analysis import (
     calculate_vaccine_coverage,
     analyze_weight_variation,
     analyze_weight_variation_month,
+    analyze_financials_per_cow,
+    analyze_financials_current,
+    analyze_weight_gain_vs_spending,
 )
 
 
@@ -67,6 +70,33 @@ async def weight_variation(farm_id: str):
 async def weight_variation_month(farm_id: str):
     try:
         result = await analyze_weight_variation_month(farm_id)
+        return result
+    except Exception as e:
+        raise e
+
+
+@router.get("/weight/financial")
+async def weight_vs_financial(farm_id: str, start_date: str, end_date: str):
+    try:
+        result = analyze_weight_gain_vs_spending(farm_id, start_date, end_date)
+        return result
+    except Exception as e:
+        raise e
+
+
+@router.get("/financial/cattles")
+async def financial_by_cattle(farm_id: str):
+    try:
+        result = await analyze_financials_per_cow(farm_id)
+        return result
+    except Exception as e:
+        raise e
+
+
+@router.get("/financial/current")
+async def financials_current(farm_id: str):
+    try:
+        result = await analyze_financials_current(farm_id)
         return result
     except Exception as e:
         raise e
