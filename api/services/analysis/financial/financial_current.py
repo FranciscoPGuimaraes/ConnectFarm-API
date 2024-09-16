@@ -12,15 +12,22 @@ async def analyze_financials_current(farm_id: UUID):
         current_month = now.month
         current_year = now.year
 
-        start_of_month = datetime(current_year, current_month, 1)
-        end_of_month = (start_of_month.replace(day=28) + timedelta(days=4)).replace(
-            day=1
+        # Datas no formato "yyyy-mm-dd"
+        start_of_month = datetime(current_year, current_month, 1).strftime("%Y-%m-%d")
+        end_of_month = (
+            (datetime(current_year, current_month, 28) + timedelta(days=4))
+            .replace(day=1)
+            .strftime("%Y-%m-%d")
         )
 
-        start_of_year = datetime(current_year, 1, 1)
-        end_of_year = datetime(current_year + 1, 1, 1)
+        start_of_year = datetime(current_year, 1, 1).strftime("%Y-%m-%d")
+        end_of_year = datetime(current_year + 1, 1, 1).strftime("%Y-%m-%d")
 
-        start_of_last_month = (start_of_month - timedelta(days=1)).replace(day=1)
+        start_of_last_month = (
+            (datetime(current_year, current_month, 1) - timedelta(days=1))
+            .replace(day=1)
+            .strftime("%Y-%m-%d")
+        )
         end_of_last_month = start_of_month
 
         pipeline_month = [
