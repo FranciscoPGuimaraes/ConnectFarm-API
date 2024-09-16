@@ -14,7 +14,10 @@ async def create_weight_balance(balanceData: WeightIn):
             {"identifier": balanceData.identifier},
             {
                 "$push": {
-                    "weights": {"date": now, "weight": round(balanceData.weight, 2)}
+                    "weights": {
+                        "date": now,
+                        "weight": round(10 * balanceData.weight, 2),
+                    }
                 }
             },
         )
