@@ -4,9 +4,37 @@ from api.helpers.getMonthName import get_month_name
 from api.services.db import connect_mongo
 from datetime import datetime
 import numpy as np
-from sklearn.linear_model import LinearRegression
 
 
+# Função de Regressão Linear Manual
+def simple_linear_regression(x: np.ndarray, y: np.ndarray) -> tuple:
+    # Verifica se os dados têm tamanho suficiente
+    if len(x) < 2 or len(y) < 2:
+        return 0.0, 0.0
+
+    x_mean = np.mean(x)
+    y_mean = np.mean(y)
+    xy_mean = np.mean(x * y)
+    x_squared_mean = np.mean(x**2)
+
+    denominator = x_mean**2 - x_squared_mean
+
+    # Evita divisão por zero
+    if denominator == 0:
+        return 0.0, 0.0
+
+    slope = (x_mean * y_mean - xy_mean) / denominator
+    intercept = y_mean - slope * x_mean
+
+    return slope, intercept
+
+
+# Função de Previsão
+def predict(x: float, slope: float, intercept: float) -> float:
+    return slope * x + intercept
+
+
+# Função Principal de Predição
 async def analyze_financials_prediction(farm_id: UUID):
     collection, client = connect_mongo("financials")
     try:
@@ -63,31 +91,29 @@ async def analyze_financials_prediction(farm_id: UUID):
 
         # Cria e treina o modelo de regressão linear para entradas (lucro)
         if entries:
-            entry_model = LinearRegression()
-            entry_model.fit(X_entry, y_entry)
+            entry_slope, entry_intercept = simple_linear_regression(
+                X_entry.flatten(), y_entry
+            )
         else:
-            entry_model = None
+            entry_slope, entry_intercept = 0.0, 0.0
 
         # Cria e treina o modelo de regressão linear para saídas (despesas)
         if exits:
-            exit_model = LinearRegression()
-            exit_model.fit(X_exit, y_exit)
+            exit_slope, exit_intercept = simple_linear_regression(
+                X_exit.flatten(), y_exit
+            )
         else:
-            exit_model = None
+            exit_slope, exit_intercept = 0.0, 0.0
 
         # Prepara o próximo mês para fazer a previsão
         next_month = current_month + 1 if current_month < 12 else 1
         next_month_name = get_month_name(next_month)  # Obtém o nome do próximo mês
 
         # Realiza a previsão para o próximo mês para entradas (lucro)
-        predicted_next_month_entry = (
-            entry_model.predict([[next_month]])[0] if entry_model else 0.0
-        )
+        predicted_next_month_entry = predict(next_month, entry_slope, entry_intercept)
 
         # Realiza a previsão para o próximo mês para saídas (despesas)
-        predicted_next_month_exit = (
-            exit_model.predict([[next_month]])[0] if exit_model else 0.0
-        )
+        predicted_next_month_exit = predict(next_month, exit_slope, exit_intercept)
 
         # Calcula a variação em relação ao último mês para entradas (lucro)
         last_month_entry = [
