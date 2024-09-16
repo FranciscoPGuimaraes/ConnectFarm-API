@@ -12,7 +12,11 @@ async def create_weight_balance(balanceData: WeightIn):
 
         result = collection.update_one(
             {"identifier": balanceData.identifier},
-            {"$push": {"weights": {"date": now, "weight": balanceData.weight}}},
+            {
+                "$push": {
+                    "weights": {"date": now, "weight": round(balanceData.weight, 2)}
+                }
+            },
         )
         if result.matched_count == 0:
             raise HTTPException(status_code=404, detail="Cattle not found")
