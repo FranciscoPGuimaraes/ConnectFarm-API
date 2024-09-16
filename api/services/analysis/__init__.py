@@ -11,3 +11,4 @@ from .weight.weight_vs_financials import analyze_weight_gain_vs_spending
 
 from .financial.financials_per_cow import analyze_financials_per_cow
 from .financial.financial_current import analyze_financials_current
+from .financial.financial_predict import analyze_financials_prediction
