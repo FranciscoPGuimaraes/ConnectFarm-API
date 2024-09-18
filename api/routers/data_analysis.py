@@ -12,6 +12,7 @@ from api.services.analysis import (
     analyze_financials_current,
     analyze_weight_gain_vs_spending,
     analyze_financials_prediction,
+    get_locations,
 )
 
 
@@ -107,6 +108,15 @@ async def financials_current(farm_id: str):
 async def financials_predict(farm_id: str):
     try:
         result = await analyze_financials_prediction(farm_id)
+        return result
+    except Exception as e:
+        raise e
+
+
+@router.get("/location")
+async def location_system(farm_id: str):
+    try:
+        result = await get_locations(farm_id)
         return result
     except Exception as e:
         raise e
