@@ -9,6 +9,19 @@ async def get_locations(farm_id: UUID):
     try:
         farm_id_str = str(farm_id)
 
+        # Definir as coordenadas atualizadas das extremidades
+        bottom_right = {
+            "latitude": -22.26231086486486,
+            "longitude": -45.687739110705834,
+        }
+        top_left = {
+            "latitude": -22.256145315315315,
+            "longitude": -45.69440112104077,
+        }
+
+        # Definir o tamanho do quadrante (ajustável conforme a necessidade)
+        quadrant_size = 0.001  # Ajuste para o intervalo desejado
+
         # Pipeline para obter a última localização de cada vaca
         locations_pipeline = [
             {
@@ -38,29 +51,36 @@ async def get_locations(farm_id: UUID):
             },
         ]
 
-        # Pipeline para calcular as zonas de maior concentração
         zones_pipeline = [
             {
                 "$match": {
-                    "farmId": farm_id_str  # Filtra pelo farmId
+                    "farmId": farm_id_str,
+                    "latitude": {
+                        "$gte": bottom_right["latitude"],
+                        "$lte": top_left["latitude"],
+                    },
+                    "longitude": {
+                        "$gte": top_left["longitude"],
+                        "$lte": bottom_right["longitude"],
+                    },
                 }
             },
             {
                 "$project": {
-                    "latitude": {
+                    "latitude_range": {
                         "$floor": {
                             "$divide": [
-                                "$latitude",
-                                50,
-                            ]  # Divide latitude por 50 e arredonda para baixo
+                                {"$subtract": ["$latitude", bottom_right["latitude"]]},
+                                quadrant_size,  # Ajusta o tamanho do quadrante para latitude
+                            ]
                         }
                     },
-                    "longitude": {
+                    "longitude_range": {
                         "$floor": {
                             "$divide": [
-                                "$longitude",
-                                50,
-                            ]  # Divide longitude por 50 e arredonda para baixo
+                                {"$subtract": ["$longitude", top_left["longitude"]]},
+                                quadrant_size,  # Ajusta o tamanho do quadrante para longitude
+                            ]
                         }
                     },
                 }
@@ -68,8 +88,8 @@ async def get_locations(farm_id: UUID):
             {
                 "$group": {
                     "_id": {
-                        "latitude_range": "$latitude",
-                        "longitude_range": "$longitude",
+                        "latitude_range": "$latitude_range",
+                        "longitude_range": "$longitude_range",
                     },
                     "total_count": {
                         "$sum": 1
@@ -87,13 +107,30 @@ async def get_locations(farm_id: UUID):
                     "_id": 0,
                     "latitude_range": {
                         "$concat": [
-                            {"$toString": {"$multiply": ["$_id.latitude_range", 50]}},
+                            {
+                                "$toString": {
+                                    "$add": [
+                                        bottom_right["latitude"],
+                                        {
+                                            "$multiply": [
+                                                "$_id.latitude_range",
+                                                quadrant_size,
+                                            ]
+                                        },
+                                    ]
+                                }
+                            },
                             "-",
                             {
                                 "$toString": {
                                     "$add": [
-                                        {"$multiply": ["$_id.latitude_range", 50]},
-                                        50,
+                                        bottom_right["latitude"],
+                                        {
+                                            "$multiply": [
+                                                {"$add": ["$_id.latitude_range", 1]},
+                                                quadrant_size,
+                                            ]
+                                        },
                                     ]
                                 }
                             },
@@ -101,13 +138,30 @@ async def get_locations(farm_id: UUID):
                     },
                     "longitude_range": {
                         "$concat": [
-                            {"$toString": {"$multiply": ["$_id.longitude_range", 50]}},
+                            {
+                                "$toString": {
+                                    "$add": [
+                                        top_left["longitude"],
+                                        {
+                                            "$multiply": [
+                                                "$_id.longitude_range",
+                                                quadrant_size,
+                                            ]
+                                        },
+                                    ]
+                                }
+                            },
                             "-",
                             {
                                 "$toString": {
                                     "$add": [
-                                        {"$multiply": ["$_id.longitude_range", 50]},
-                                        50,
+                                        top_left["longitude"],
+                                        {
+                                            "$multiply": [
+                                                {"$add": ["$_id.longitude_range", 1]},
+                                                quadrant_size,
+                                            ]
+                                        },
                                     ]
                                 }
                             },
@@ -118,11 +172,50 @@ async def get_locations(farm_id: UUID):
             },
         ]
 
+        out_of_bounds_pipeline = [
+            {"$match": {"farmId": farm_id_str}},  # Filtra pelo farmId
+            {
+                "$sort": {"timestamp": -1}  # Ordena por timestamp em ordem decrescente
+            },
+            {
+                "$group": {
+                    "_id": "$cowId",  # Agrupa por cowId
+                    "latest_location": {
+                        "$first": "$$ROOT"
+                    },  # Pega o primeiro documento após a ordenação
+                }
+            },
+            {
+                "$project": {
+                    "_id": 0,
+                    "cowId": "$_id",
+                    "latitude": "$latest_location.latitude",
+                    "longitude": "$latest_location.longitude",
+                }
+            },
+            {
+                "$match": {
+                    "$or": [
+                        {"latitude": {"$lt": bottom_right["latitude"]}},
+                        {"latitude": {"$gt": top_left["latitude"]}},
+                        {"longitude": {"$lt": top_left["longitude"]}},
+                        {"longitude": {"$gt": bottom_right["longitude"]}},
+                    ]
+                }
+            },
+            {"$project": {"cowId": 1}},
+        ]
+
         # Execute pipelines
         locations_result = list(collection.aggregate(locations_pipeline))
         zones_result = list(collection.aggregate(zones_pipeline))
+        out_of_bounds_cows = list(collection.aggregate(out_of_bounds_pipeline))
 
-        return {"locations": locations_result, "top_zones": zones_result}
+        return {
+            "locations": locations_result,
+            "top_zones": zones_result,
+            "out_of_bounds_cows": out_of_bounds_cows,
+        }
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro ao analisar dados: {e}")
