@@ -61,9 +61,12 @@ async def all_calves_growth(farm_id: str):
         # Calcula a projeção de crescimento para cada bezerro
         for calf in calves_data:
             calf_number = calf["calf_number"]
+            mother_number = calf["mother_number"]
             data = calf["weights"]
             projection = project_growth(data)
-            projections[calf_number] = projection
+
+            # Adiciona o número da mãe na resposta
+            projections[calf_number] = {"mother_number": mother_number, **projection}
 
         return projections
     except Exception as e:

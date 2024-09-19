@@ -19,7 +19,10 @@ async def get_calf_data(farm_id: str):
             {"$sort": {"calves.weights.date": 1}},  # Ordena pesos por data
             {
                 "$group": {
-                    "_id": "$calves.number",  # Agrupa por número do bezerro
+                    "_id": {
+                        "calf_number": "$calves.number",  # Número do bezerro
+                        "mother_number": "$number",  # Número da mãe
+                    },
                     "weights": {
                         "$push": {
                             "date": "$calves.weights.date",
@@ -35,7 +38,15 @@ async def get_calf_data(farm_id: str):
         formatted_data = []
         for calf in data:
             weights = calf["weights"]
-            formatted_data.append({"calf_number": calf["_id"], "weights": weights})
+            calf_number = calf["_id"]["calf_number"]
+            mother_number = calf["_id"]["mother_number"]
+            formatted_data.append(
+                {
+                    "calf_number": calf_number,
+                    "mother_number": mother_number,
+                    "weights": weights,
+                }
+            )
 
         return formatted_data
 
@@ -47,7 +58,6 @@ async def get_calf_data(farm_id: str):
 
 # Função para calcular a projeção de crescimento e peso futuro de um bezerro
 def project_growth(data: List[Dict[str, Any]]) -> Dict[str, Any]:
-    print(data)
     if not data or len(data) < 2:
         return {
             "message": "Not enough data to project growth",
