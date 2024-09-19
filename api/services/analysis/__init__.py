@@ -2,6 +2,7 @@ from .health.health_history import analyze_health_history
 
 from .calves.calves_ratio import calculate_weaned_calves_ratio
 from .calves.calves_time import analyze_weaning_time
+from .calves.calves_preditions import get_calf_data, project_growth
 
 from .vaccines.vaccines_coverage import calculate_vaccine_coverage
 
