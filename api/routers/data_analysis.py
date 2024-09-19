@@ -56,7 +56,7 @@ async def weaning_time(farm_id: str):
 async def all_calves_growth(farm_id: str):
     try:
         calves_data = await get_calf_data(farm_id)
-        projections = {}
+        projections = []
 
         # Calcula a projeção de crescimento para cada bezerro
         for calf in calves_data:
@@ -65,8 +65,13 @@ async def all_calves_growth(farm_id: str):
             data = calf["weights"]
             projection = project_growth(data)
 
-            # Adiciona o número da mãe na resposta
-            projections[calf_number] = {"mother_number": mother_number, **projection}
+            # Adiciona o número da mãe e organiza o retorno no formato solicitado
+            projections.append(
+                {
+                    "number": calf_number,
+                    "data": {"mother_number": mother_number, **projection},
+                }
+            )
 
         return projections
     except Exception as e:
