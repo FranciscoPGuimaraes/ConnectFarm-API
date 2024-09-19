@@ -13,6 +13,8 @@ from api.services.analysis import (
     analyze_weight_gain_vs_spending,
     analyze_financials_prediction,
     get_locations,
+    get_calf_data,
+    project_growth,
 )
 
 
@@ -46,6 +48,27 @@ async def weaning_time(farm_id: str):
     try:
         result = await analyze_weaning_time(farm_id)
         return result
+    except Exception as e:
+        raise e
+
+
+@router.get("/calves/growth")
+async def all_calves_growth(farm_id: str):
+    try:
+        calves_data = await get_calf_data(farm_id)
+        projections = {}
+
+        # Calcula a projeção de crescimento para cada bezerro
+        for calf in calves_data:
+            calf_number = calf["calf_number"]
+            mother_number = calf["mother_number"]
+            data = calf["weights"]
+            projection = project_growth(data)
+
+            # Adiciona o número da mãe na resposta
+            projections[calf_number] = {"mother_number": mother_number, **projection}
+
+        return projections
     except Exception as e:
         raise e
 
