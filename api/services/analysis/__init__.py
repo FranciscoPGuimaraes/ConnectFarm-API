@@ -5,6 +5,7 @@ from .calves.calves_time import analyze_weaning_time
 from .calves.calves_preditions import get_calf_data, project_growth
 
 from .vaccines.vaccines_coverage import calculate_vaccine_coverage
+from .vaccines.vaccines_quarter import get_vaccinations_by_quarter
 
 from .weight.weight_variation import analyze_weight_variation
 from .weight.weight_montly import analyze_weight_variation_month

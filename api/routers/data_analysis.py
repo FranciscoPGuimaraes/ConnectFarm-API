@@ -15,6 +15,7 @@ from api.services.analysis import (
     get_locations,
     get_calf_data,
     project_growth,
+    get_vaccinations_by_quarter,
 )
 
 
@@ -91,6 +92,15 @@ async def vaccines_coverage(farm_id: str):
 async def weight_variation(farm_id: str):
     try:
         result = await analyze_weight_variation(farm_id)
+        return result
+    except Exception as e:
+        raise e
+
+
+@router.get("/vaccines/quarterly")
+async def vaccines_quarterly(farm_id: str):
+    try:
+        result = await get_vaccinations_by_quarter(farm_id)
         return result
     except Exception as e:
         raise e
