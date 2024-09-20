@@ -1,19 +1,20 @@
 import re
+from uuid import UUID
 from fastapi import HTTPException
 from psycopg2 import IntegrityError
 
 from api.services.db import connect
-from api.models.AnnotationsModels import AnnotationsIn
+from api.models.AnnotationsModels import Annotations
 
 
-async def create_annotation(annotation: AnnotationsIn) -> None:
+async def create_annotation(annotation: Annotations, user_id: UUID) -> None:
     query = """INSERT INTO "annotations"(date, description, user_id) VALUES (%(date)s, %(description)s, %(user_id)s);"""
-    annotation.user_id = str(annotation.user_id)
+    user_id = str(user_id)
 
     parameters = {
         'date': annotation.date,
         'description': annotation.description,
-        'user_id': annotation.user_id,
+        'user_id': user_id,
     }
     try:
         with connect() as conn:
