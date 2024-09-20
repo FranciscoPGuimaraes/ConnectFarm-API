@@ -13,3 +13,4 @@ PyJWT==2.8.0
 pymongo==4.8.0
 requests==2.32.3
 numpy==1.26.4
+APScheduler==3.10.4
