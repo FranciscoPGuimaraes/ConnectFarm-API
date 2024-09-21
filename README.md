@@ -1,2 +1,2 @@
 # ConnectFarm-API
-API do app ConnectFarm
+API do app ConnectFarm.
