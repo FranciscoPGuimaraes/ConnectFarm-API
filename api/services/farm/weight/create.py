@@ -22,6 +22,7 @@ async def create_weight_balance(balanceData: WeightIn):
 
         requests.post(
             "https://connectfarm-localizationsystem-production.up.railway.app/webhook",
+            # "http://localhost:3000/webhook",
             json={"weight": round(10 * balanceData.weight, 2), "number": cattle_number},
         )
 

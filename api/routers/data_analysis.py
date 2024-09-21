@@ -16,6 +16,7 @@ from api.services.analysis import (
     get_calf_data,
     project_growth,
     get_vaccinations_by_quarter,
+    get_not_recovered_cows,
 )
 
 
@@ -30,6 +31,15 @@ router = APIRouter(
 async def health_history(farm_id: str):
     try:
         result = await analyze_health_history(farm_id)
+        return result
+    except Exception as e:
+        raise e
+
+
+@router.get("/health/sick")
+async def health_sick(farm_id: str):
+    try:
+        result = await get_not_recovered_cows(farm_id)
         return result
     except Exception as e:
         raise e
