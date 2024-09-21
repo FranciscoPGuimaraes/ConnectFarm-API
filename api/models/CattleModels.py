@@ -2,6 +2,7 @@ from typing import List, Optional
 from uuid import UUID
 from pydantic import BaseModel, Field
 
+
 class Weight(BaseModel):
     date: str
     weight: float
@@ -44,9 +45,9 @@ class HealthHistory(BaseModel):
 class CalfIn(BaseModel):
     number: str
     birth_date: str
-    weaning: Optional[str]
-    annotation: Optional[str]
-    weights: Weight
+    weaning: Optional[str] = None  # Garantindo que o campo seja opcional
+    annotation: Optional[str] = None
+    weights: Weight  # Aceitando um único objeto
 
 
 class CalfUpdate(BaseModel):

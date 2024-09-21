@@ -44,7 +44,7 @@ app.add_middleware(
 
 
 # Job agendado para verificar gados fora do terreno
-@scheduler.scheduled_job("interval", minutes=1)
+@scheduler.scheduled_job("interval", minutes=0.6)
 async def scheduled_check():
     farm_id = UUID("f721300f-f6a9-4d70-b343-82487d070be1")
     await check_out_of_bounds(farm_id)
@@ -54,7 +54,7 @@ async def scheduled_check():
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Código executado na inicialização
-    # scheduler.start()
+    scheduler.start()
     try:
         yield
     finally:
