@@ -2,10 +2,6 @@ from typing import List, Optional
 from uuid import UUID
 from pydantic import BaseModel, Field
 
-class Age(BaseModel):
-    value: int
-    date: str
-
 class Weight(BaseModel):
     date: str
     weight: float
@@ -65,7 +61,7 @@ class Reproduction(BaseModel):
 class CattleIn(BaseModel):
     farm_id: Optional[UUID] = None
     number: int
-    age: Optional[Age] = None
+    age: Optional[int] = None
     breed: str
     annotation: Optional[str] = None
     weights: Weight
@@ -80,7 +76,7 @@ class Cattle(BaseModel):
     id: str = Field(alias="_id")
     farm_id: UUID
     number: int
-    age: Optional[Age] = None  # Ensure this field is optional
+    age: Optional[int] = None  # Ensure this field is optional
     breed: str
     annotation: Optional[str] = None
     weights: List[Weight] = []
