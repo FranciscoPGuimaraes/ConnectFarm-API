@@ -1,4 +1,4 @@
-from http.client import HTTPException
+from fastapi import HTTPException
 from uuid import UUID
 from api.services.db import connect_mongo
 from api.models.CattleModels import CalfIn

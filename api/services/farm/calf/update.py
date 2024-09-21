@@ -3,7 +3,7 @@ from fastapi import HTTPException
 from api.services.db import connect_mongo
 from api.models.CattleModels import CalfUpdate, Weight
 
-async def update_calf(farm_id: UUID, cattle_number: int, number: str, update_data: CalfUpdate):
+async def update_calf(farm_id: UUID, number: str, update_data: CalfUpdate):
     collection, client = connect_mongo("cattles")
     try:
         farm_id_str = str(farm_id)
@@ -32,7 +32,7 @@ async def update_calf(farm_id: UUID, cattle_number: int, number: str, update_dat
             raise HTTPException(status_code=400, detail="No valid fields to update.")
 
         result = collection.update_one(
-            {"farm_id": farm_id_str, "number": cattle_number, "calves.number": number},
+            {"farm_id": farm_id_str, "calves.number": number},
             update_operations,
             array_filters=[{"elem.number": number}]
         )
