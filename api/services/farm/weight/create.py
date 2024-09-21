@@ -8,12 +8,21 @@ from api.models.CattleModels import WeightIn
 async def create_weight_balance(balanceData: WeightIn):
     collection, client = connect_mongo("cattles")
     try:
-        # Data atual no formato "yyyy-mm-dd"
         now = datetime.now().strftime("%Y-%m-%d")
+
+        cattle = collection.find_one({"identifier": balanceData.identifier})
+
+        if not cattle:
+            raise HTTPException(status_code=404, detail="Cattle not found")
+
+        # Obtém o número da vaca
+        cattle_number = cattle.get("number")
+
+        print(cattle_number)
 
         requests.post(
             "https://connectfarm-localizationsystem-production.up.railway.app/webhook",
-            json={"weight": round(10 * balanceData.weight, 2)},
+            json={"weight": round(10 * balanceData.weight, 2), "number": cattle_number},
         )
 
         result = collection.update_one(
