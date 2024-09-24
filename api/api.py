@@ -54,7 +54,7 @@ async def scheduled_check():
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Código executado na inicialização
-    scheduler.start()
+    # scheduler.start()
     try:
         yield
     finally:

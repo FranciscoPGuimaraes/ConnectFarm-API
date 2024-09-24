@@ -6,6 +6,7 @@ from enum import Enum
 class FinancialCategory(str, Enum):
     FEEDING = "feeding"
     PRODUCTION = "production"
+    VACCINES = "vaccines"
 
 
 class FinancialTransactionIn(BaseModel):

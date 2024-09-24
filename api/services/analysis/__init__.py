@@ -10,7 +10,7 @@ from .vaccines.vaccines_quarter import get_vaccinations_by_quarter
 
 from .weight.weight_variation import analyze_weight_variation
 from .weight.weight_montly import analyze_weight_variation_month
-from .weight.weight_vs_financials import analyze_weight_gain_vs_spending
+from .weight.weight_grid import get_cattle_weights
 
 from .financial.financials_per_cow import analyze_financials_per_cow
 from .financial.financial_current import analyze_financials_current
