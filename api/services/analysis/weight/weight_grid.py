@@ -28,9 +28,7 @@ async def get_cattle_weights(farm_id: UUID):
             },
         ]
 
-        print("Running aggregation pipeline...")
         weights_result = list(collection.aggregate(weights_pipeline))
-        print(f"Aggregation result: {weights_result}")
 
         cattle_data = {}
         for entry in weights_result:

@@ -4,9 +4,14 @@ from enum import Enum
 
 
 class FinancialCategory(str, Enum):
-    FEEDING = "feeding"
-    PRODUCTION = "production"
-    VACCINES = "vaccines"
+    ALIMENTAÇÃO = "Alimentação"
+    SAÚDE_ANIMAL = "Saúde animal"
+    VACINAÇÃO = "Vacinação"
+    REPRODUÇÃO = "Reprodução"
+    MANUTENÇÃO_PASTAGENS = "Manutenção das pastagens"
+    CUSTOS_MÃO_DE_OBRA = "Custos de mão-de-obra"
+    TRANSPORTE_GADO = "Transporte do gado"
+    SUPLEMENTAÇÃO = "Suplementação"
 
 
 class FinancialTransactionIn(BaseModel):

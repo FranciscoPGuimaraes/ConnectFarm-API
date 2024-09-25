@@ -11,16 +11,16 @@ async def get_locations(farm_id: UUID):
 
         # Definir as coordenadas atualizadas das extremidades
         bottom_right = {
-            "latitude": -22.26231086486486,
-            "longitude": -45.687739110705834,
+            "latitude": -22.256728,
+            "longitude": -45.695663,
         }
         top_left = {
-            "latitude": -22.256145315315315,
-            "longitude": -45.69440112104077,
+            "latitude": -22.256449,
+            "longitude": -45.695957,
         }
 
         # Definir o tamanho do quadrante (ajustável conforme a necessidade)
-        quadrant_size = 0.001  # Ajuste para o intervalo desejado
+        quadrant_size = 0.00004  # Ajuste para o intervalo desejado
 
         # Pipeline para obter a última localização de cada vaca
         locations_pipeline = [
