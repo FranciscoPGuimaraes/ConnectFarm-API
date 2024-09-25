@@ -12,6 +12,8 @@ class FinancialCategory(str, Enum):
     CUSTOS_MÃO_DE_OBRA = "Custos de mão-de-obra"
     TRANSPORTE_GADO = "Transporte do gado"
     SUPLEMENTAÇÃO = "Suplementação"
+    LUCRO_PRODUCAO = ("Lucro com produção",)
+    LUCRO_VENDA_GADO = "Lucro com venda de gado"
 
 
 class FinancialTransactionIn(BaseModel):
