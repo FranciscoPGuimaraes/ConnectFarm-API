@@ -16,8 +16,10 @@ async def get_cattle_weights(farm_id: UUID):
         weights_pipeline = [
             {"$match": {"farm_id": farm_id_str}},
             {"$unwind": "$weights"},
-            {"$match": {"weights.date": {"$gte": six_months_ago}}},
-            {"$sort": {"weights.date": 1}},
+            {
+                "$match": {"weights.date": {"$gte": six_months_ago}}
+            },  # Pesos dos últimos 6 meses
+            {"$sort": {"weights.date": 1}},  # Ordenar por data de pesagem
             {
                 "$project": {
                     "_id": 0,
@@ -34,21 +36,25 @@ async def get_cattle_weights(farm_id: UUID):
         for entry in weights_result:
             number = entry["number"]
             if number not in cattle_data:
+                # Inicializar os dados do gado
                 cattle_data[number] = {
                     "weights": [],
-                    "initial_weight": entry["weight"],
-                    "final_weight": entry["weight"],
-                    "last_date": entry["date"],
+                    "initial_weight": entry["weight"],  # Primeiro peso registrado
+                    "final_weight": entry["weight"],  # Inicialmente o primeiro peso
+                    "last_date": entry["date"],  # Data do primeiro registro
                 }
+
+            # Adicionar o peso e data à lista
             cattle_data[number]["weights"].append(
                 {
                     "date": entry["date"],
                     "weight": entry["weight"],
                 }
             )
-            if entry["weight"] > cattle_data[number]["final_weight"]:
-                cattle_data[number]["final_weight"] = entry["weight"]
-                cattle_data[number]["last_date"] = entry["date"]
+
+            # Atualizar o peso final e a última data com base no último registro
+            cattle_data[number]["final_weight"] = entry["weight"]
+            cattle_data[number]["last_date"] = entry["date"]
 
         # Calcular crescimento e peso previsto
         predicted_weights = []
