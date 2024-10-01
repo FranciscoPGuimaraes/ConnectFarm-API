@@ -1,7 +1,7 @@
 import os
 import sys
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
 import json
 from uuid import uuid4
@@ -11,7 +11,6 @@ from api.models.CattleModels import CattleIn
 from api.services.farm.cattle import create_cattle
 from fastapi import HTTPException
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
 CATTLE_JSON = """
 {
