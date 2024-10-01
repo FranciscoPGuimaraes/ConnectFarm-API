@@ -53,7 +53,7 @@ async def read_cattle_endpoint(farm_id: UUID, cattle_number: int):
 
 
 @router.get("/", description="Get all cattles from farm", response_model=List[Cattle])
-async def read_cattle_endpoint(farm_id: UUID):
+async def read_cattle_endpoint_all(farm_id: UUID):
     try:
         cattle = await read_all_cattles(farm_id)
         return cattle
