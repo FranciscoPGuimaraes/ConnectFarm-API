@@ -8,7 +8,7 @@ async def create_cattle(farm_id: UUID, cattle: CattleIn):
     collection, client = connect_mongo("cattles")
     try:
         # Convert the model to a dictionary
-        cattle_data = cattle.model_dump(by_alias=True, exclude_unset=True)
+        cattle_data = cattle.dict(by_alias=True, exclude_unset=True)
 
         # Ensure weights is a list
         if "weights" in cattle_data:

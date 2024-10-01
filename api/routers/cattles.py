@@ -1,19 +1,21 @@
-from typing import Dict, List, Optional
+from typing import List, Optional
 from fastapi import APIRouter, Depends, Security
 
 from api.dependencies import get_api_key, get_current_user
 from uuid import UUID
-from fastapi import APIRouter, Depends
-
-from api.dependencies import get_api_key
 from api.models.CattleModels import Cattle, CattleIn, CattleUpdate
-from api.services.farm.cattle import create_cattle, update_cattle, read_cattle, read_all_cattles
+from api.services.farm.cattle import (
+    create_cattle,
+    update_cattle,
+    read_cattle,
+    read_all_cattles,
+)
 
 
 router = APIRouter(
     prefix="/farms/{farm_id}/cattles",
     tags=["Cattle"],
-    dependencies=[Depends(get_api_key), Security(get_current_user)]
+    dependencies=[Depends(get_api_key), Security(get_current_user)],
 )
 
 
@@ -27,7 +29,9 @@ async def create_cattle_endpoint(farm_id: UUID, cattle: CattleIn):
 
 
 @router.put("/{cattle_number}", description="Update a cattle in a farm")
-async def update_cattle_endpoint(farm_id: UUID, cattle_number: int, update_data: CattleUpdate):
+async def update_cattle_endpoint(
+    farm_id: UUID, cattle_number: int, update_data: CattleUpdate
+):
     try:
         result = await update_cattle(farm_id, cattle_number, update_data)
         return result
@@ -35,7 +39,11 @@ async def update_cattle_endpoint(farm_id: UUID, cattle_number: int, update_data:
         raise e
 
 
-@router.get("/{cattle_number}", description="Get one cattle from farm", response_model=Optional[Cattle])
+@router.get(
+    "/{cattle_number}",
+    description="Get one cattle from farm",
+    response_model=Optional[Cattle],
+)
 async def read_cattle_endpoint(farm_id: UUID, cattle_number: int):
     try:
         cattle = await read_cattle(farm_id, cattle_number)
