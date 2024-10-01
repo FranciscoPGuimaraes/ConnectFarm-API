@@ -57,7 +57,12 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install secure-smtplib  # Se necessário
+      - name: Check if send_email.py exists
+        run: |
+          if [ ! -f send_email.py ]; then
+            echo "send_email.py not found!"
+            exit 1
+          fi
       - name: Send Notification Email
         env:
           EMAIL_TO: ${{ secrets.EMAIL_TO }}
