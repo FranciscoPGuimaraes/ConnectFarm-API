@@ -15,7 +15,9 @@ Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de
 
 `API-KEY` `SECRET_KEY` `ALGORITHM`
 
-`ONESIGNAL_APP_ID` `ONESIGNAL_REST_API_KEY`## Rodando localmente
+`ONESIGNAL_APP_ID` `ONESIGNAL_REST_API_KEY`
+
+## Rodando localmente
 
 Clone o projeto
 
