@@ -1,6 +1,8 @@
 # ConnectFarm - API
 
-Esse repositório contém a API do projeto ConnectFarm, responsável por coletar e disponibilizar dados ao app, além de fazer as análises de dados para o painel web.
+![Python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue) ![FastAPI](https://img.shields.io/badge/fastapi-109989?style=for-the-badge&logo=FASTAPI&logoColor=white) ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white) ![Supabase](https://img.shields.io/badge/Supabase-181818?style=for-the-badge&logo=supabase&logoColor=white) ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
+
+Esse repositório contém a API do projeto ConnectFarm(projeto apresentado na Fetin de 2024), responsável por coletar e disponibilizar dados ao app, além de fazer as análises de dados para o painel web.
 
 
 ## Variáveis de Ambiente
@@ -46,11 +48,11 @@ Para rodar os testes do projeto é muito simples, apenas rode o seguinte comando
   pytest
 ```
 
-## Stack utilizada
+## Documentação
 
-**Banco de Dados:** PostgreSQL(Supabase) para dados do usuário e MongoDB(Atlas) para dados da fazenda.
+[Documentação](https://connect-farm-api.vercel.app/docs)
 
-**Back-end:** Python com FastAPI
+
 ## Relacionados
 [Aplicativo](https://github.com/LauraPivoto/connect-farm)
 
